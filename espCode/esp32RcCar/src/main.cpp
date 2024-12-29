@@ -6,13 +6,17 @@ const char* password = "abhiram02";
 
 WiFiServer server(80);
 
+IPAddress local_ip(192, 168, 1, 1);    // Set the static IP
+IPAddress gateway(192, 168, 1, 1);     // Set the gateway (usually same as local_ip)
+IPAddress subnet(255, 255, 255, 0); 
+
 // Variable to store the HTTP request
 String header;
 
 //variables to store the current LED states
 String statePin16 = "off";
 
-const int ledPin16 = 16;
+const int ledPin16 = 2;
 // Current time
 unsigned long currentTime = millis();
 // Previous time
@@ -26,6 +30,7 @@ void setup() {
   pinMode(ledPin16, OUTPUT);
   digitalWrite(ledPin16, 0);
 
+  WiFi.softAPConfig(local_ip, gateway, subnet);
   WiFi.softAP(ssid,password);
   
   // Print IP address and start web server
